@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # TimescaleDB for time-series data storage
+  timescaledb:
+    image: timescale/timescaledb:latest-pg14
+    container_name: trading_bot_timescaledb
+    environment:
+      POSTGRES_DB: trading_bot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - timescaledb_data:/var/lib/postgresql/data
+    networks:
+      - trading_network
+
+  # Apache Kafka for message queue
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: trading_bot_zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - trading_network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: trading_bot_kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    networks:
+      - trading_network
+
+  # Kafka UI for monitoring
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: trading_bot_kafka_ui
+    depends_on:
+      - kafka
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    networks:
+      - trading_network
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:alpine
+    container_name: trading_bot_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - trading_network
+
+  # Jupyter Notebook for development/analysis
+  jupyter:
+    image: jupyter/tensorflow-notebook:latest
+    container_name: trading_bot_jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./:/home/jovyan/work
+    environment:
+      JUPYTER_ENABLE_LAB: "yes"
+    networks:
+      - trading_network
+
+networks:
+  trading_network:
+    driver: bridge
+
+volumes:
+  timescaledb_data:
