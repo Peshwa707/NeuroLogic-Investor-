@@ -1,0 +1,52 @@
+# Railway ignore file - exclude files not needed for deployment
+
+# Git
+.git/
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Logs
+logs/
+*.log
+
+# Saved models (too large)
+saved_models/*.h5
+saved_models/*.pkl
+
+# Data files
+*.csv
+*.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Tests
+tests/
+
+# Examples
+examples/
+
+# Documentation
+docs/
+
+# Docker files (not needed on Railway)
+docker-compose.yml
+Dockerfile
+
+# Local env file
+.env

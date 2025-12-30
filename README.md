@@ -31,6 +31,29 @@ A production-grade, continuously learning stock and cryptocurrency prediction bo
 - **Feature Engineering**: Automated technical indicator generation
 - **Risk Management**: Position sizing and signal validation
 
+## 🚂 Quick Deploy to Railway (Recommended)
+
+**Deploy to the cloud in 3 minutes - No setup required!**
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template)
+
+1. Click the button above
+2. Wait for deployment (2-5 minutes)
+3. Open your app and configure API keys through the web interface
+4. Start predicting!
+
+📖 **Detailed Railway Guide**: [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md)
+📖 **Quick Start Guide**: [README_RAILWAY.md](README_RAILWAY.md)
+
+**Why Railway?**
+- ✅ No Docker or Kubernetes setup
+- ✅ Free tier available ($5 credit/month)
+- ✅ Configure API keys through web interface
+- ✅ Automatic HTTPS and custom domains
+- ✅ Built-in monitoring and logs
+
+---
+
 ## 🏗️ Architecture
 
 ```
@@ -95,6 +118,13 @@ ml_trading_bot/
 ```
 
 ## 🚀 Quick Start
+
+### Two Deployment Options
+
+#### Option 1: Railway (Cloud - Recommended for beginners)
+See [Railway Deployment Guide](RAILWAY_DEPLOYMENT.md) or [Quick Start](README_RAILWAY.md)
+
+#### Option 2: Local Development (Advanced)
 
 ### Prerequisites
 

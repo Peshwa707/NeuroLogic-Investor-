@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["python310", "gcc", "g++"]
+
+[phases.install]
+cmds = ["pip install --upgrade pip", "pip install -r requirements.txt"]
+
+[phases.build]
+cmds = ["mkdir -p ml_trading_bot/logs", "mkdir -p ml_trading_bot/saved_models"]
+
+[start]
+cmd = "streamlit run ml_trading_bot/app/streamlit_dashboard_railway.py --server.port=$PORT --server.address=0.0.0.0 --server.headless=true --server.enableCORS=false --server.enableXsrfProtection=false"
